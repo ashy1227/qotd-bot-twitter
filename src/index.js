@@ -52,6 +52,9 @@ function parseImagePool(imagePool) {
  */
 function getQuote(file) {
 	var quote = getJSON(file);
+	if(typeof quote.quote === "string") {
+		quote.quote = [quote.quote];
+	}
 	quote.imagePool = parseImagePool(quote.imagePool);
 	return quote;
 }
@@ -72,12 +75,12 @@ async function tweetQuote(quote) {
 		const mediaIds = await Promise.all([
 			rwClient.v1.uploadMedia(quote.imagePool[Math.floor(Math.random() * quote.imagePool.length)]) // Upload random image
 		]);
-		await rwClient.v2.tweet({
-			text: quote.quote,
+		await rwClient.v2.tweetThread([{
+			text: quote.quote.shift(),
 			media: {
 				media_ids: mediaIds
 			}
-		});
+		}].concat(quote.quote));
 	} catch(e) {
 		console.error(e);
 	}
