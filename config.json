@@ -1,0 +1,7 @@
+{
+	"schedule": "0 12 * * * *",
+
+	"quoteDir": "data/quotes/",
+	"imagePoolDir": "data/image_pools/",
+	"imageDir": "data/images/"
+}

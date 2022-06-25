@@ -1,0 +1,28 @@
+{
+	"name": "twitter-qotd",
+	"version": "0.0.1",
+	"description": "Tweet a random quote with an image on a set interval",
+	"main": "src/index.js",
+	"scripts": {
+		"start": "node src/index.js",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/idliketobeatree/twitter-qotd-bot.git"
+	},
+	"keywords": [
+		"twitter"
+	],
+	"author": "idliketobeatree",
+	"license": "Zlib",
+	"bugs": {
+		"url": "https://github.com/idliketobeatree/twitter-qotd-bot/issues"
+	},
+	"homepage": "https://github.com/idliketobeatree/twitter-qotd-bot#readme",
+	"dependencies": {
+		"cron": "^2.0.0",
+		"fs-readdir-recursive": "^1.1.0",
+		"twitter-api-v2": "^1.12.2"
+	}
+}
