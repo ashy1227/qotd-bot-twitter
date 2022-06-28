@@ -63,7 +63,7 @@ function getQuote(file) {
  */
 function randomQuote() {
 	var files = recursive("", (name, index, dir) => { // list of all filepaths inside the quote dir
-		return fs.lstatSync(path.join(dir, name)).isDirectory() || path.extname(name) === ".json";
+		return name[0] !== '.' && (fs.lstatSync(path.join(dir, name)).isDirectory() || path.extname(name) === ".json");
 	}, [], config.quoteDir);
 	return getQuote(files[Math.floor(Math.random()*files.length)]); // random quote object
 }
