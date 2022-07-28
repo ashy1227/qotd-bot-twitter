@@ -1,12 +1,10 @@
-const TwitterApi = require("twitter-api-v2").TwitterApi;
-const CronJob = require('cron').CronJob;
+const CronJob = require("cron").CronJob;
 const recursive = require("fs-readdir-recursive");
 
 const path = require("path");
 const fs = require("fs");
 
-var config, account;
-var client, rwClient;
+var config;
 
 function getJSON(file) {
 	try {
@@ -67,35 +65,24 @@ function randomQuote() {
 	}, [], config.quoteDir);
 	return getQuote(files[Math.floor(Math.random()*files.length)]); // random quote object
 }
+
 /**
- * Post a quote from the bot
+ * Start CronJob for posting
  */
-async function tweetQuote(quote) {
-	try {
-		const mediaIds = await Promise.all([
-			rwClient.v1.uploadMedia(quote.imagePool[Math.floor(Math.random() * quote.imagePool.length)]) // Upload random image
-		]);
-		await rwClient.v2.tweetThread([{
-			text: quote.quote.shift(),
-			media: {
-				media_ids: mediaIds
-			}
-		}].concat(quote.quote));
-	} catch(e) {
-		console.error(e);
-	}
-}
-
-function init() {
+function start(post) {
 	config = getJSON("config.json");
-	account = getJSON("account.json");
-	
-	client = new TwitterApi(account);
-	rwClient = client.readWrite;
-}
-init();
+	post();
+	return; // test
 
-const postJob = new CronJob(config.schedule, () => {
-	tweetQuote(randomQuote());
-});
-postJob.start();
+	const postJob = new CronJob(config.schedule, () => {
+		post();
+	});
+	postJob.start();
+}
+
+module.exports.getJSON = getJSON;
+// not exactly necessary
+// module.exports.parseImagePool = parseImagePool;
+module.exports.getQuote = getQuote;
+module.exports.randomQuote = randomQuote;
+module.exports.start = start;
