@@ -71,14 +71,14 @@ function randomQuote() {
  */
 function start(post) {
 	config = getJSON("config.json");
-	post();
-	return; // test
 
 	const postJob = new CronJob(config.schedule, () => {
 		post();
 	});
 	postJob.start();
 }
+
+module.exports.config = config;
 
 module.exports.getJSON = getJSON;
 // not exactly necessary
